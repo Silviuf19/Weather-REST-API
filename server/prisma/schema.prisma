@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["debian-openssl-3.0.x", "debian-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tari {
+  id Int @id @default(autoincrement())
+  nume_tara String @unique
+  latitudine Float
+  longitudine Float
+  Orase Orase[]
+}
+
+model Orase {
+  id Int @id @default(autoincrement())
+  id_tara Int 
+  nume_oras String
+  latitudine Float
+  longitudine Float
+  Tari Tari @relation(fields: [id_tara], references: [id], onDelete: Cascade)
+  Temperaturi Temperaturi[]
+
+  @@unique([id_tara, nume_oras])
+}
+
+model Temperaturi {
+  id Int @id @default(autoincrement())
+  valoare Float
+  timestamp DateTime @default(now())
+  id_oras Int
+  Orase Orase @relation(fields: [id_oras], references: [id], onDelete: Cascade)
+
+  @@unique([id_oras, timestamp])
+}

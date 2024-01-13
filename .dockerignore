@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+.git
+.gitignore
+.vscode
+**/.env
+**/.prettierrc
+**/.eslintrc.js
+Dockerfile
